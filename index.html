@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- 登录状态显示 - 放在最上面 -->
+<div id="userStatus" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"></div>
     <!-- 浪漫永存淡出动画 -->
     <div id="romanceForever" class="romance-forever">Romance Forever</div>
     
@@ -388,7 +391,65 @@
     <footer class="footer">
         <p>© 2024 三海一秋 | 蝴蝶与坦克可以并存于一个女人身上</p>
     </footer>
+<!-- 登录/注册模态框 -->
+<div id="authModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000;">
+    <div style="background: white; padding: 30px; border-radius: 10px; width: 300px; max-width: 90%;">
+        <h2 style="color: #1E4A6F; margin-bottom: 20px; text-align: center;">🌊 来到三海一秋</h2>
+        <input type="email" id="email" placeholder="邮箱" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #E0F2FE; border-radius: 5px; box-sizing: border-box;">
+        <input type="password" id="password" placeholder="密码" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #E0F2FE; border-radius: 5px; box-sizing: border-box;">
+        <div style="display: flex; gap: 10px;">
+            <button onclick="signUp()" style="flex: 1; padding: 10px; background: #1E4A6F; color: white; border: none; border-radius: 5px; cursor: pointer;">注册</button>
+            <button onclick="signIn()" style="flex: 1; padding: 10px; background: #7CB9E8; color: white; border: none; border-radius: 5px; cursor: pointer;">登录</button>
+        </div>
+        <button onclick="hideAuthModal()" style="width: 100%; margin-top: 10px; padding: 8px; background: none; border: none; color: #999; cursor: pointer;">关闭</button>
+    </div>
+</div>
 
+<!-- 个人信息填写模态框 -->
+<div id="profileModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000;">
+    <div style="background: white; padding: 30px; border-radius: 10px; width: 350px; max-width: 90%;">
+        <h2 style="color: #1E4A6F; margin-bottom: 20px; text-align: center;">🌸 告诉阿秋一点关于你</h2>
+        <input type="text" id="username" placeholder="昵称 *必填" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #E0F2FE; border-radius: 5px; box-sizing: border-box;">
+        
+        <select id="mbti" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #E0F2FE; border-radius: 5px; box-sizing: border-box;">
+            <option value="">选择MBTI（可选）</option>
+            <option value="INTJ">INTJ</option>
+            <option value="INTP">INTP</option>
+            <option value="INFJ">INFJ</option>
+            <option value="INFP">INFP</option>
+            <option value="ISTJ">ISTJ</option>
+            <option value="ISTP">ISTP</option>
+            <option value="ISFJ">ISFJ</option>
+            <option value="ISFP">ISFP</option>
+            <option value="ENTJ">ENTJ</option>
+            <option value="ENTP">ENTP</option>
+            <option value="ENFJ">ENFJ</option>
+            <option value="ENFP">ENFP</option>
+            <option value="ESTJ">ESTJ</option>
+            <option value="ESTP">ESTP</option>
+            <option value="ESFJ">ESFJ</option>
+            <option value="ESFP">ESFP</option>
+        </select>
+        
+        <select id="gender" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #E0F2FE; border-radius: 5px; box-sizing: border-box;">
+            <option value="">性别（可选）</option>
+            <option value="女">女</option>
+            <option value="男">男</option>
+            <option value="其他">其他</option>
+            <option value="保密">保密</option>
+        </select>
+        
+        <input type="date" id="birthday" placeholder="生日" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #E0F2FE; border-radius: 5px; box-sizing: border-box;">
+        
+        <input type="text" id="location" placeholder="地区（如：上海）" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #E0F2FE; border-radius: 5px; box-sizing: border-box;">
+        
+        <button onclick="saveProfile()" style="width: 100%; padding: 12px; background: #1E4A6F; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">保存信息</button>
+    </div>
+</div>
+
+<!-- 引入Supabase（在script.js之前） -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
 </html>
+
