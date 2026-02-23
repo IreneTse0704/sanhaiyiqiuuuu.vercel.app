@@ -1,0 +1,2396 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.8) 2px, transparent 2px),
+        radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.7) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.5) 2px, transparent 2px),
+        radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+        radial-gradient(circle at 70% 40%, rgba(255, 255, 255, 0.7) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.5) 2px, transparent 2px),
+        radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+        radial-gradient(circle at 10% 90%, rgba(255, 255, 255, 0.7) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 85% 60%, rgba(255, 255, 255, 0.5) 2px, transparent 2px),
+        linear-gradient(135deg, #E0F2FE 0%, #B8E6FF 50%, #E0F2FE 100%);
+    background-size: 100px 100px, 150px 150px, 120px 120px, 180px 180px, 
+                     140px 140px, 160px 160px, 130px 130px, 170px 170px,
+                     110px 110px, 190px 190px, 100% 100%;
+    min-height: 100vh;
+    color: #1E4A6F;
+    letter-spacing: 1px;
+    line-height: 1.8;
+    animation: snowfall 20s linear infinite;
+}
+
+@keyframes snowfall {
+    0% {
+        background-position: 20% 30%, 60% 70%, 50% 50%, 80% 20%, 30% 80%,
+                          70% 40%, 40% 60%, 90% 90%, 10% 90%, 85% 60%, 0 0;
+    }
+    100% {
+        background-position: 20% 130%, 60% 170%, 50% 150%, 80% 120%, 30% 180%,
+                          70% 140%, 40% 160%, 90% 190%, 10% 190%, 85% 160%, 0 100%;
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 页面切换 */
+.page {
+    display: none;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.page.active {
+    display: block;
+}
+
+/* 确保"添加小说"和"添加电影"按钮只在文艺之秋页面显示 */
+#arts-page:not(.active) .add-btn {
+    display: none !important;
+}
+
+.add-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #4A7BA7 0%, #1E4A6F 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(30, 74, 111, 0.3);
+}
+
+.add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 74, 111, 0.4);
+}
+
+.add-btn:active {
+    transform: translateY(0);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 首页样式 */
+.header {
+    text-align: center;
+    padding: 40px 20px;
+    margin-bottom: 30px;
+}
+
+.title {
+    font-size: 48px;
+    font-weight: 300;
+    color: #1E4A6F;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(30, 74, 111, 0.1);
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #4A7BA7;
+    font-weight: 300;
+}
+
+/* 导航栏 */
+.nav {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(30, 74, 111, 0.1);
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 74, 111, 0.15);
+}
+
+.nav-item span:first-child {
+    font-size: 24px;
+}
+
+.nav-item span:last-child {
+    font-size: 16px;
+    color: #1E4A6F;
+}
+
+/* 卡片容器 */
+.main-content {
+    padding: 20px 0;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+/* 卡片样式 */
+.card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(30, 74, 111, 0.2);
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.card-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.card-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(30, 74, 111, 0.2);
+}
+
+/* 潘通色卡颜色 */
+.moonlight-blue {
+    background-color: rgb(225, 232, 240);
+}
+
+.paraiba-blue {
+    background-color: rgb(0, 191, 255);
+}
+
+.tiffany-blue {
+    background-color: rgb(64, 224, 208);
+}
+
+.instagram-blue {
+    background-color: rgb(138, 162, 183);
+}
+
+.card:hover .card-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.card:hover .card-image {
+    transform: scale(1.1);
+}
+
+.card-title {
+    font-size: 24px;
+    color: #1E4A6F;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.card-description {
+    font-size: 14px;
+    color: #4A7BA7;
+    line-height: 1.6;
+}
+
+/* 树洞页面样式 */
+.treehole-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.back-btn {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    color: #1E4A6F;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(30, 74, 111, 0.1);
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateX(-5px);
+}
+
+/* 留言容器 */
+.messages-container {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+}
+
+.messages-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.messages-header h2 {
+    font-size: 28px;
+    color: #1E4A6F;
+    margin-bottom: 10px;
+}
+
+.messages-subtitle {
+    font-size: 14px;
+    color: #4A7BA7;
+}
+
+/* 留言列表 */
+.messages-list {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.messages-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.messages-list::-webkit-scrollbar-thumb {
+    background: rgba(30, 74, 111, 0.3);
+    border-radius: 3px;
+}
+
+/* 单条留言 */
+.message-item {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.message-item:hover {
+    background: rgba(255, 255, 255, 0.7);
+    transform: translateX(5px);
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.message-author {
+    font-weight: 600;
+    color: #1E4A6F;
+    font-size: 16px;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #4A7BA7;
+}
+
+.message-content {
+    color: #1E4A6F;
+    line-height: 1.8;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+/* 回复样式 */
+.replies {
+    margin-top: 15px;
+    padding-left: 20px;
+    border-left: 3px solid #4A7BA7;
+}
+
+.reply {
+    background: rgba(224, 242, 254, 0.5);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.reply-author {
+    font-weight: 600;
+    color: #1E4A6F;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.reply-content {
+    color: #1E4A6F;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* 回复区域 */
+.reply-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(30, 74, 111, 0.1);
+}
+
+.reply-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reply-name-input {
+    padding: 10px 15px;
+    border: 1px solid rgba(30, 74, 111, 0.2);
+    border-radius: 8px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.6);
+    color: #1E4A6F;
+    transition: all 0.3s ease;
+    outline: none;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.reply-name-input:focus {
+    border-color: #4A7BA7;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 0 2px rgba(74, 123, 167, 0.1);
+}
+
+.reply-content-input {
+    padding: 10px 15px;
+    border: 1px solid rgba(30, 74, 111, 0.2);
+    border-radius: 8px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.6);
+    color: #1E4A6F;
+    transition: all 0.3s ease;
+    outline: none;
+    resize: vertical;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    min-height: 60px;
+}
+
+.reply-content-input:focus {
+    border-color: #4A7BA7;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 0 2px rgba(74, 123, 167, 0.1);
+}
+
+.reply-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #4A7BA7 0%, #1E4A6F 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    align-self: flex-start;
+    box-shadow: 0 2px 10px rgba(30, 74, 111, 0.2);
+}
+
+.reply-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(30, 74, 111, 0.3);
+}
+
+.reply-btn:active {
+    transform: translateY(0);
+}
+
+/* 留言表单 */
+.message-form-container {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+}
+
+.message-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-input {
+    padding: 15px 20px;
+    border: 2px solid rgba(30, 74, 111, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #1E4A6F;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: #4A7BA7;
+    box-shadow: 0 0 0 3px rgba(74, 123, 167, 0.1);
+}
+
+.form-textarea {
+    padding: 15px 20px;
+    border: 2px solid rgba(30, 74, 111, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #1E4A6F;
+    transition: all 0.3s ease;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.form-textarea:focus {
+    border-color: #4A7BA7;
+    box-shadow: 0 0 0 3px rgba(74, 123, 167, 0.1);
+}
+
+.submit-btn {
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #4A7BA7 0%, #1E4A6F 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 74, 111, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .title {
+        font-size: 36px;
+    }
+    
+    .cards-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .card {
+        padding: 30px 20px;
+    }
+    
+    .messages-container,
+    .message-form-container {
+        padding: 20px;
+    }
+    
+    .header {
+        padding: 30px 15px;
+    }
+}
+
+/* 动画效果 */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.message-item {
+    animation: slideIn 0.5s ease-out;
+}
+
+/* 空状态 */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #4A7BA7;
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.empty-state-text {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* 文艺风格增强 */
+.site-title {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 56px;
+    font-weight: 400;
+    letter-spacing: 8px;
+    color: #1E4A6F;
+    text-shadow: 2px 2px 8px rgba(30, 74, 111, 0.15);
+}
+
+.header-content {
+    padding: 40px 20px;
+}
+
+.hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+
+.hero-title {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 36px;
+    color: #1E4A6F;
+    margin-bottom: 15px;
+    letter-spacing: 4px;
+    font-weight: 400;
+}
+
+.hero-subtitle {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 18px;
+    color: #4A7BA7;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+
+.card-description {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 16px;
+    color: #4A7BA7;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.card-title {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 28px;
+    color: #1E4A6F;
+    margin-bottom: 15px;
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+/* 雪花评分样式 */
+.snowflake-rating {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.snowflake {
+    font-size: 28px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    opacity: 0.3;
+    filter: grayscale(100%);
+}
+
+.snowflake.clickable:hover {
+    transform: scale(1.2);
+    opacity: 0.6;
+}
+
+.snowflake.filled {
+    opacity: 1;
+    filter: grayscale(0%);
+    text-shadow: 0 0 10px rgba(74, 123, 167, 0.5);
+}
+
+.snowflake.empty {
+    opacity: 0.3;
+    filter: grayscale(100%);
+}
+
+.book-rating,
+.movie-rating {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.book-rating .snowflake,
+.movie-rating .snowflake {
+    font-size: 20px;
+}
+
+.book-item,
+.movie-item {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(30, 74, 111, 0.1);
+    transition: all 0.3s ease;
+}
+
+.book-item:hover,
+.movie-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(30, 74, 111, 0.15);
+}
+
+.book-header,
+.movie-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.book-title,
+.movie-title {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 20px;
+    color: #1E4A6F;
+    margin: 0;
+    font-weight: 500;
+}
+
+.book-author,
+.movie-director {
+    font-size: 14px;
+    color: #4A7BA7;
+    margin-bottom: 8px;
+}
+
+.book-review,
+.movie-review {
+    font-size: 14px;
+    color: #4A7BA7;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+.book-actions,
+.movie-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.treehole-title {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 42px;
+    color: #1E4A6F;
+    margin-bottom: 10px;
+    letter-spacing: 4px;
+    font-weight: 400;
+}
+
+.treehole-subtitle {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 16px;
+    color: #4A7BA7;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.messages-header h3 {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 24px;
+    color: #1E4A6F;
+    letter-spacing: 2px;
+    font-weight: 400;
+}
+
+.message-count {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 14px;
+    color: #4A7BA7;
+    letter-spacing: 1px;
+}
+
+.input-header h3 {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 24px;
+    color: #1E4A6F;
+    letter-spacing: 2px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.name-input, .message-input {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    letter-spacing: 1px;
+}
+
+.footer p {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 14px;
+    color: #4A7BA7;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+/* 树洞容器样式 */
+.treehole-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.messages-section {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+}
+
+.message-input-section {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+}
+
+.input-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.name-input {
+    padding: 15px 20px;
+    border: 2px solid rgba(30, 74, 111, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #1E4A6F;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.name-input:focus {
+    border-color: #4A7BA7;
+    box-shadow: 0 0 0 3px rgba(74, 123, 167, 0.1);
+}
+
+.message-input {
+    padding: 15px 20px;
+    border: 2px solid rgba(30, 74, 111, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #1E4A6F;
+    transition: all 0.3s ease;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.message-input:focus {
+    border-color: #4A7BA7;
+    box-shadow: 0 0 0 3px rgba(74, 123, 167, 0.1);
+}
+
+.submit-btn {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #4A7BA7 0%, #1E4A6F 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(30, 74, 111, 0.3);
+    letter-spacing: 2px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 74, 111, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* 响应式设计增强 */
+@media (max-width: 768px) {
+    .site-title {
+        font-size: 42px;
+        letter-spacing: 4px;
+    }
+    
+    .hero-title {
+        font-size: 28px;
+        letter-spacing: 2px;
+    }
+    
+    .hero-subtitle {
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+    
+    .card-title {
+        font-size: 24px;
+        letter-spacing: 1px;
+    }
+    
+    .card-description {
+        font-size: 14px;
+    }
+    
+    .treehole-title {
+        font-size: 32px;
+        letter-spacing: 2px;
+    }
+    
+    .treehole-container {
+        padding: 20px 15px;
+    }
+    
+    .messages-section,
+    .message-input-section {
+        padding: 20px;
+    }
+}
+
+/* 烟花粒子样式 */
+.firework-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    animation: particleFade 0.1s ease-out;
+}
+
+@keyframes particleFade {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* 日志之海页面样式 */
+.journal-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.journal-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.journal-title {
+    font-size: 36px;
+    color: #1E4A6F;
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.journal-subtitle {
+    font-size: 18px;
+    color: #4A7BA7;
+    font-weight: 300;
+}
+
+.journal-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* 日历区域样式 */
+.calendar-section {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.calendar-nav-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: linear-gradient(135deg, #9CA8B8 0%, #B8C4D4 100%);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(156, 168, 184, 0.3);
+}
+
+.calendar-nav-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(156, 168, 184, 0.4);
+}
+
+.calendar-controls {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+    justify-content: center;
+}
+
+.calendar-select {
+    padding: 10px 15px;
+    border: 2px solid #D4D4D4;
+    border-radius: 10px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.calendar-select:hover {
+    border-color: #9CA8B8;
+    box-shadow: 0 0 0 3px rgba(156, 168, 184, 0.1);
+}
+
+.calendar-select:focus {
+    outline: none;
+    border-color: #9CA8B8;
+    box-shadow: 0 0 0 3px rgba(156, 168, 184, 0.2);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-weekday {
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    color: #9CA8B8;
+    font-weight: 600;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    color: #666;
+    background: rgba(255, 255, 255, 0.5);
+    position: relative;
+}
+
+.calendar-day:hover {
+    background: rgba(156, 168, 184, 0.3);
+    transform: scale(1.05);
+}
+
+.calendar-day.today {
+    background: linear-gradient(135deg, #D4B8C4 0%, #E8D8E0 100%);
+    color: #fff;
+    font-weight: 600;
+}
+
+.calendar-day.selected {
+    background: linear-gradient(135deg, #9CA8B8 0%, #B8C4D4 100%);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(156, 168, 184, 0.4);
+}
+
+.calendar-day.has-entry::after {
+    content: '♡';
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    font-size: 10px;
+    color: rgba(200, 200, 200, 0.7);
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-day.has-entry:not(.selected):not(.today)::after {
+    color: rgba(180, 180, 180, 0.6);
+}
+
+.calendar-day.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.calendar-day.empty:hover {
+    transform: none;
+    background: transparent;
+}
+
+/* 日志输入区域样式 */
+.journal-entry-section {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+}
+
+.section-title {
+    font-size: 20px;
+    color: #1E4A6F;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.selected-date-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(156, 168, 184, 0.15);
+    border-radius: 12px;
+    border-left: 4px solid #9CA8B8;
+}
+
+.date-label {
+    font-size: 14px;
+    color: #9CA8B8;
+    font-weight: 600;
+}
+
+.date-value {
+    font-size: 16px;
+    color: #666;
+    font-weight: 500;
+}
+
+.journal-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.journal-textarea {
+    width: 100%;
+    padding: 20px;
+    border: 2px solid #D4D4D4;
+    border-radius: 15px;
+    font-size: 15px;
+    line-height: 1.8;
+    resize: vertical;
+    min-height: 300px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #666;
+    transition: all 0.3s ease;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.journal-textarea:focus {
+    outline: none;
+    border-color: #9CA8B8;
+    box-shadow: 0 0 0 4px rgba(156, 168, 184, 0.1);
+}
+
+.journal-textarea::placeholder {
+    color: #B8B8B8;
+}
+
+.save-journal-btn {
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #9CA8B8 0%, #B8C4D4 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(156, 168, 184, 0.3);
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.save-journal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(156, 168, 184, 0.4);
+}
+
+.save-journal-btn:active {
+    transform: translateY(0);
+}
+
+/* 响应式设计 */
+@media (max-width: 968px) {
+    .journal-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .calendar-section,
+    .journal-entry-section {
+        padding: 20px;
+    }
+    
+    .calendar-day {
+        font-size: 14px;
+    }
+    
+    .journal-textarea {
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .journal-container {
+        padding: 20px 10px;
+    }
+    
+    .calendar-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .calendar-controls {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .calendar-select {
+        width: 100%;
+    }
+    
+    .calendar-day {
+        font-size: 12px;
+        border-radius: 8px;
+    }
+    
+    .journal-title {
+        font-size: 28px;
+    }
+}
+
+/* 便利贴样式 */
+.sticky-notes-section {
+    margin-top: 30px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+}
+
+.sticky-notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sticky-notes-title {
+    font-size: 22px;
+    color: #1E4A6F;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add-sticky-note-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #D4B8C4 0%, #E8D8E0 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(212, 184, 196, 0.3);
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.add-sticky-note-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 184, 196, 0.4);
+}
+
+.add-sticky-note-btn:active {
+    transform: translateY(0);
+}
+
+/* 便利贴网格 */
+.sticky-notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* 便利贴卡片 - 莫兰迪色系 */
+.sticky-note {
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.sticky-note:hover {
+    transform: translateY(-5px) rotate(1deg);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.sticky-note-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #333;
+    word-wrap: break-word;
+}
+
+.sticky-note-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+    flex-grow: 1;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.sticky-note-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sticky-note-btn {
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.6);
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.sticky-note-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-1px);
+}
+
+.sticky-note-btn.delete {
+    color: #D4B8C4;
+}
+
+.sticky-note-btn.delete:hover {
+    background: #D4B8C4;
+    color: #fff;
+}
+
+/* 便利贴弹窗 */
+#stickyNoteModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+#stickyNoteModal.active {
+    display: flex;
+}
+
+.sticky-note-modal-content {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sticky-note-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.sticky-note-modal-title {
+    font-size: 24px;
+    color: #1E4A6F;
+    font-weight: 600;
+}
+
+.sticky-note-close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.sticky-note-close-btn:hover {
+    background: rgba(212, 184, 196, 0.2);
+    color: #D4B8C4;
+}
+
+/* 便利贴表单 */
+.sticky-note-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sticky-note-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sticky-note-form-label {
+    font-size: 14px;
+    color: #666;
+    font-weight: 600;
+}
+
+.sticky-note-form-input,
+.sticky-note-form-textarea {
+    padding: 12px 15px;
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    font-size: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    transition: all 0.3s ease;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.sticky-note-form-input:focus,
+.sticky-note-form-textarea:focus {
+    outline: none;
+    border-color: #D4B8C4;
+    box-shadow: 0 0 0 4px rgba(212, 184, 196, 0.1);
+}
+
+.sticky-note-form-textarea {
+    resize: vertical;
+    min-height: 150px;
+    line-height: 1.6;
+}
+
+/* 颜色选择器 - 莫兰迪色系 */
+.sticky-note-color-picker {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.sticky-note-color-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sticky-note-color-option:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sticky-note-color-option.selected {
+    border-color: #1E4A6F;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(30, 74, 111, 0.3);
+}
+
+/* 莫兰迪色系颜色 */
+.sticky-note-color-1 {
+    background: #E0C9A6; /* 米黄色 */
+}
+
+.sticky-note-color-2 {
+    background: #D4B8C4; /* 粉灰色 */
+}
+
+.sticky-note-color-3 {
+    background: #9CA8B8; /* 蓝灰色 */
+}
+
+.sticky-note-color-4 {
+    background: #B8C4D4; /* 淡蓝色 */
+}
+
+.sticky-note-color-5 {
+    background: #C4D4B8; /* 淡绿色 */
+}
+
+/* 便利贴按钮组 */
+.sticky-note-modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.sticky-note-modal-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.sticky-note-modal-btn.cancel {
+    background: rgba(212, 184, 196, 0.2);
+    color: #D4B8C4;
+}
+
+.sticky-note-modal-btn.cancel:hover {
+    background: rgba(212, 184, 196, 0.3);
+    transform: translateY(-1px);
+}
+
+.sticky-note-modal-btn.save {
+    background: linear-gradient(135deg, #D4B8C4 0%, #E8D8E0 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(212, 184, 196, 0.3);
+}
+
+.sticky-note-modal-btn.save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 184, 196, 0.4);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .sticky-notes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+    }
+    
+    .sticky-note {
+        padding: 15px;
+        min-height: 150px;
+    }
+    
+    .sticky-note-title {
+        font-size: 16px;
+    }
+    
+    .sticky-note-content {
+        font-size: 13px;
+    }
+    
+    .sticky-note-modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .sticky-note-modal-title {
+        font-size: 20px;
+    }
+    
+    .sticky-note-color-option {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+
+
+/* 浪漫永存淡出动画 */
+.romance-forever {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Dancing Script', cursive;
+    font-size: 48px;
+    color: #1E4A6F;
+    opacity: 1;
+    animation: romanceFadeOut 3s ease-in-out forwards;
+    z-index: 10000;
+    pointer-events: none;
+    text-shadow: 2px 2px 4px rgba(30, 74, 111, 0.3);
+}
+
+@keyframes romanceFadeOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(30, 74, 111, 0.3);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    border-bottom: 2px solid rgba(30, 74, 111, 0.1);
+}
+
+.modal-header h3 {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 24px;
+    color: #1E4A6F;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.close-btn {
+    font-size: 32px;
+    font-weight: 300;
+    color: #4A7BA7;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #1E4A6F;
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding: 20px 30px;
+    border-top: 2px solid rgba(30, 74, 111, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 16px;
+    color: #1E4A6F;
+    font-weight: 500;
+}
+
+.btn-cancel {
+    padding: 12px 30px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #4A7BA7;
+    border: 2px solid #4A7BA7;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.btn-cancel:hover {
+    background: rgba(74, 123, 167, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn-save {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #4A7BA7 0%, #1E4A6F 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 74, 111, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .title {
+        font-size: 36px;
+    }
+    
+    .cards-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .card {
+        padding: 30px 20px;
+    }
+    
+    .messages-container,
+    .message-form-container {
+        padding: 20px;
+    }
+    
+    .header {
+        padding: 30px 15px;
+    }
+}
+
+/* 动画效果 */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.message-item {
+    animation: slideIn 0.5s ease-out;
+}
+
+/* 空状态 */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #4A7BA7;
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.empty-state-text {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* 文艺风格增强 */
+.site-title {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 56px;
+    font-weight: 400;
+    letter-spacing: 8px;
+    color: #1E4A6F;
+    text-shadow: 2px 2px 8px rgba(30, 74, 111, 0.15);
+}
+
+.header-content {
+    padding: 40px 20px;
+}
+
+.hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+
+.hero-title {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 36px;
+    color: #1E4A6F;
+    margin-bottom: 15px;
+    letter-spacing: 4px;
+    font-weight: 400;
+}
+
+.hero-subtitle {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 18px;
+    color: #4A7BA7;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+
+.card-description {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 16px;
+    color: #4A7BA7;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.card-title {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 28px;
+    color: #1E4A6F;
+    margin-bottom: 15px;
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+.treehole-title {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 42px;
+    color: #1E4A6F;
+    margin-bottom: 10px;
+    letter-spacing: 4px;
+    font-weight: 400;
+}
+
+.treehole-subtitle {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 16px;
+    color: #4A7BA7;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.messages-header h3 {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 24px;
+    color: #1E4A6F;
+    letter-spacing: 2px;
+    font-weight: 400;
+}
+
+.message-count {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 14px;
+    color: #4A7BA7;
+    letter-spacing: 1px;
+}
+
+.input-header h3 {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 24px;
+    color: #1E4A6F;
+    letter-spacing: 2px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.name-input, .message-input {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    letter-spacing: 1px;
+}
+
+.footer p {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 14px;
+    color: #4A7BA7;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+/* 树洞容器样式 */
+.treehole-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.messages-section {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+}
+
+.message-input-section {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+}
+
+.input-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.name-input {
+    padding: 15px 20px;
+    border: 2px solid rgba(30, 74, 111, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #1E4A6F;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.name-input:focus {
+    border-color: #4A7BA7;
+    box-shadow: 0 0 0 3px rgba(74, 123, 167, 0.1);
+}
+
+.message-input {
+    padding: 15px 20px;
+    border: 2px solid rgba(30, 74, 111, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #1E4A6F;
+    transition: all 0.3s ease;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.message-input:focus {
+    border-color: #4A7BA7;
+    box-shadow: 0 0 0 3px rgba(74, 123, 167, 0.1);
+}
+
+.submit-btn {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #4A7BA7 0%, #1E4A6F 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(30, 74, 111, 0.3);
+    letter-spacing: 2px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 74, 111, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* 响应式设计增强 */
+@media (max-width: 768px) {
+    .site-title {
+        font-size: 42px;
+        letter-spacing: 4px;
+    }
+    
+    .hero-title {
+        font-size: 28px;
+        letter-spacing: 2px;
+    }
+    
+    .hero-subtitle {
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+    
+    .card-title {
+        font-size: 24px;
+        letter-spacing: 1px;
+    }
+    
+    .card-description {
+        font-size: 14px;
+    }
+    
+    .treehole-title {
+        font-size: 32px;
+        letter-spacing: 2px;
+    }
+    
+    .treehole-container {
+        padding: 20px 15px;
+    }
+    
+    .messages-section,
+    .message-input-section {
+        padding: 20px;
+    }
+}
+
+/* 烟花粒子样式 */
+.firework-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    animation: particleFade 0.1s ease-out;
+}
+
+@keyframes particleFade {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* 日志之海页面样式 */
+.journal-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.journal-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.journal-title {
+    font-size: 36px;
+    color: #1E4A6F;
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.journal-subtitle {
+    font-size: 18px;
+    color: #4A7BA7;
+    font-weight: 300;
+}
+
+.journal-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* 日历区域样式 */
+.calendar-section {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.calendar-nav-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: linear-gradient(135deg, #9CA8B8 0%, #B8C4D4 100%);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(156, 168, 184, 0.3);
+}
+
+.calendar-nav-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(156, 168, 184, 0.4);
+}
+
+.calendar-controls {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+    justify-content: center;
+}
+
+.calendar-select {
+    padding: 10px 15px;
+    border: 2px solid #D4D4D4;
+    border-radius: 10px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.calendar-select:hover {
+    border-color: #9CA8B8;
+    box-shadow: 0 0 0 3px rgba(156, 168, 184, 0.1);
+}
+
+.calendar-select:focus {
+    outline: none;
+    border-color: #9CA8B8;
+    box-shadow: 0 0 0 3px rgba(156, 168, 184, 0.2);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-weekday {
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    color: #9CA8B8;
+    font-weight: 600;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    color: #666;
+    background: rgba(255, 255, 255, 0.5);
+    position: relative;
+}
+
+.calendar-day:hover {
+    background: rgba(156, 168, 184, 0.3);
+    transform: scale(1.05);
+}
+
+.calendar-day.today {
+    background: linear-gradient(135deg, #D4B8C4 0%, #E8D8E0 100%);
+    color: #fff;
+    font-weight: 600;
+}
+
+.calendar-day.selected {
+    background: linear-gradient(135deg, #9CA8B8 0%, #B8C4D4 100%);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(156, 168, 184, 0.4);
+}
+
+.calendar-day.has-entry::after {
+    content: '♡';
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    font-size: 10px;
+    color: rgba(200, 200, 200, 0.7);
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-day.has-entry:not(.selected):not(.today)::after {
+    color: rgba(180, 180, 180, 0.6);
+}
+
+.calendar-day.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.calendar-day.empty:hover {
+    transform: none;
+    background: transparent;
+}
+
+/* 日志输入区域样式 */
+.journal-entry-section {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(30, 74, 111, 0.1);
+}
+
+.section-title {
+    font-size: 20px;
+    color: #1E4A6F;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.selected-date-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(156, 168, 184, 0.15);
+    border-radius: 12px;
+    border-left: 4px solid #9CA8B8;
+}
+
+.date-label {
+    font-size: 14px;
+    color: #9CA8B8;
+    font-weight: 600;
+}
+
+.date-value {
+    font-size: 16px;
+    color: #666;
+    font-weight: 500;
+}
+
+.journal-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.journal-textarea {
+    width: 100%;
+    padding: 20px;
+    border: 2px solid #D4D4D4;
+    border-radius: 15px;
+    font-size: 15px;
+    line-height: 1.8;
+    resize: vertical;
+    min-height: 300px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #666;
+    transition: all 0.3s ease;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.journal-textarea:focus {
+    outline: none;
+    border-color: #9CA8B8;
+    box-shadow: 0 0 0 4px rgba(156, 168, 184, 0.1);
+}
+
+.journal-textarea::placeholder {
+    color: #B8B8B8;
+}
+
+.save-journal-btn {
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #9CA8B8 0%, #B8C4D4 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(156, 168, 184, 0.3);
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.save-journal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(156, 168, 184, 0.4);
+}
+
+.save-journal-btn:active {
+    transform: translateY(0);
+}
+
+/* 响应式设计 */
+@media (max-width: 968px) {
+    .journal-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .calendar-section,
+    .journal-entry-section {
+        padding: 20px;
+    }
+    
+    .calendar-day {
+        font-size: 14px;
+    }
+    
+    .journal-textarea {
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .journal-container {
+        padding: 20px 10px;
+    }
+    
+    .calendar-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .calendar-controls {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .calendar-select {
+        width: 100%;
+    }
+    
+    .calendar-day {
+        font-size: 12px;
+        border-radius: 8px;
+    }
+    
+    .journal-title {
+        font-size: 28px;
+    }
+}

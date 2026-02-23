@@ -1,0 +1,394 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三海一秋 - 个人网站</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 浪漫永存淡出动画 -->
+    <div id="romanceForever" class="romance-forever">Romance Forever</div>
+    
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="site-title">三海一秋</h1>
+            <nav class="nav">
+                <button class="nav-item active" onclick="navigateTo('home')">首页</button>
+                <button class="nav-item" onclick="navigateTo('treehole')">树洞</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 首页 -->
+    <main id="home-page" class="page active">
+        <div class="hero">
+            <h2 class="hero-title">欢迎来到三海一秋</h2>
+            <p class="hero-subtitle">我清楚地看见你</p>
+        </div>
+        
+        <div class="cards-container">
+            <div class="card" onclick="showCardInfo('论文之海', event)">
+                <div class="card-icon">
+                    <div class="card-image moonlight-blue"></div>
+                </div>
+                <h3 class="card-title">论文之海</h3>
+                <p class="card-description">压力是一种特权</p>
+            </div>
+            
+            <div class="card" onclick="showCardInfo('文艺之秋', event)">
+                <div class="card-icon">
+                    <div class="card-image paraiba-blue"></div>
+                </div>
+                <h3 class="card-title">文艺之秋</h3>
+                <p class="card-description">袅袅兮秋风，洞庭波兮木叶下</p>
+            </div>
+            
+            <div class="card" onclick="showCardInfo('日志之海', event)">
+                <div class="card-icon">
+                    <div class="card-image tiffany-blue"></div>
+                </div>
+                <h3 class="card-title">日志之海</h3>
+                <p class="card-description">他人方寸间，山海几千重</p>
+            </div>
+            
+            <div class="card" onclick="navigateTo('treehole')">
+                <div class="card-icon">
+                    <div class="card-image instagram-blue"></div>
+                </div>
+                <h3 class="card-title">问答之海</h3>
+                <p class="card-description">嗨！我想成为你的朋友！</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 论文之海页面 -->
+    <main id="papers-page" class="page">
+        <div class="papers-container">
+            <div class="papers-header">
+                <h2 class="papers-title">📚 论文之海</h2>
+                <p class="papers-subtitle">压力是一种特权</p>
+                <button class="add-paper-btn" onclick="addPaper()">+ 添加论文</button>
+            </div>
+            
+            <!-- 筛选区域 -->
+            <div class="papers-filter-section">
+                <div class="filter-group">
+                    <h4 class="filter-title">📖 学科分类</h4>
+                    <div class="filter-tags" id="disciplineTags">
+                        <button class="filter-tag active" data-filter="all" onclick="filterPapers('discipline', 'all')">全部</button>
+                        <button class="filter-tag" data-filter="medicine" onclick="filterPapers('discipline', 'medicine')">医学</button>
+                        <button class="filter-tag" data-filter="computer" onclick="filterPapers('discipline', 'computer')">计算机科学</button>
+                        <button class="filter-tag" data-filter="biology" onclick="filterPapers('discipline', 'biology')">生物学</button>
+                        <button class="filter-tag" data-filter="chemistry" onclick="filterPapers('discipline', 'chemistry')">化学</button>
+                        <button class="filter-tag" data-filter="physics" onclick="filterPapers('discipline', 'physics')">物理学</button>
+                        <button class="filter-tag" data-filter="math" onclick="filterPapers('discipline', 'math')">数学</button>
+                        <button class="filter-tag" data-filter="engineering" onclick="filterPapers('discipline', 'engineering')">工程学</button>
+                        <button class="filter-tag" data-filter="psychology" onclick="filterPapers('discipline', 'psychology')">心理学</button>
+                        <button class="filter-tag" data-filter="economics" onclick="filterPapers('discipline', 'economics')">经济学</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4 class="filter-title">🏆 期刊级别</h4>
+                    <div class="filter-tags" id="journalLevelTags">
+                        <button class="filter-tag active" data-filter="all" onclick="filterPapers('journalLevel', 'all')">全部</button>
+                        <button class="filter-tag" data-filter="nature" onclick="filterPapers('journalLevel', 'nature')">Nature/Science</button>
+                        <button class="filter-tag" data-filter="cell" onclick="filterPapers('journalLevel', 'cell')">Cell</button>
+                        <button class="filter-tag" data-filter="lancet" onclick="filterPapers('journalLevel', 'lancet')">柳叶刀</button>
+                        <button class="filter-tag" data-filter="nejm" onclick="filterPapers('journalLevel', 'nejm')">NEJM</button>
+                        <button class="filter-tag" data-filter="q1" onclick="filterPapers('journalLevel', 'q1')">Q1期刊</button>
+                        <button class="filter-tag" data-filter="q2" onclick="filterPapers('journalLevel', 'q2')">Q2期刊</button>
+                        <button class="filter-tag" data-filter="q3" onclick="filterPapers('journalLevel', 'q3')">Q3期刊</button>
+                        <button class="filter-tag" data-filter="q4" onclick="filterPapers('journalLevel', 'q4')">Q4期刊</button>
+                        <button class="filter-tag" data-filter="core" onclick="filterPapers('journalLevel', 'core')">北大核心</button>
+                        <button class="filter-tag" data-filter="ei" onclick="filterPapers('journalLevel', 'ei')">EI会议</button>
+                        <button class="filter-tag" data-filter="sci" onclick="filterPapers('journalLevel', 'sci')">SCI</button>
+                        <button class="filter-tag" data-filter="ssci" onclick="filterPapers('journalLevel', 'ssci')">SSCI</button>
+                        <button class="filter-tag" data-filter="cssci" onclick="filterPapers('journalLevel', 'cssci')">CSSCI</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 论文列表 -->
+            <div class="papers-list" id="papersList">
+                <!-- 论文将通过JavaScript动态加载 -->
+            </div>
+            
+            <!-- 统计信息 -->
+            <div class="papers-stats">
+                <span>共 <strong id="totalPapers">0</strong> 篇论文</span>
+                <span>已读 <strong id="readPapers">0</strong> 篇</span>
+                <span>收藏 <strong id="favoritePapers">0</strong> 篇</span>
+            </div>
+            
+            <!-- 便利贴区域 -->
+            <div class="sticky-notes-section">
+                <div class="sticky-notes-header">
+                    <h3 class="sticky-notes-title">📝 便利贴</h3>
+                    <button class="add-sticky-btn" onclick="showStickyNoteForm()">+ 添加便利贴</button>
+                </div>
+                <div class="sticky-notes-grid" id="stickyNotesGrid">
+                    <!-- 便利贴将通过JavaScript动态加载 -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 文艺之秋页面 -->
+    <main id="arts-page" class="page">
+        <div class="arts-container">
+            <div class="arts-header">
+                <h2 class="arts-title">🍂 文艺之秋</h2>
+                <p class="arts-subtitle">袅袅兮秋风，洞庭波兮木叶下</p>
+            </div>
+            
+            <div class="scroll-content">
+                <div class="scroll-section">
+                    <h3 class="section-title">📖 读过的小说</h3>
+                    <div class="books-list" id="booksList">
+                        <!-- 小说列表将通过JavaScript动态加载 -->
+                    </div>
+                    <button class="add-btn" onclick="showBookForm()">+ 添加小说</button>
+                </div>
+                
+                <div class="scroll-section">
+                    <h3 class="section-title">🎬 看过的电影</h3>
+                    <div class="movies-list" id="moviesList">
+                        <!-- 电影列表将通过JavaScript动态加载 -->
+                    </div>
+                    <button class="add-btn" onclick="showMovieForm()">+ 添加电影</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 添加/编辑书籍弹窗 -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="bookModalTitle">添加小说</h3>
+                <span class="close-btn" onclick="closeBookModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="bookId">
+                <div class="form-group">
+                    <label>书名</label>
+                    <input type="text" id="bookTitle" class="form-input" placeholder="请输入书名">
+                </div>
+                <div class="form-group">
+                    <label>作者</label>
+                    <input type="text" id="bookAuthor" class="form-input" placeholder="请输入作者">
+                </div>
+                <div class="form-group">
+                    <label>评分</label>
+                    <div class="snowflake-rating" id="bookRating">
+                        <span class="snowflake" data-rating="1" onclick="setRating('book', 1)">❄️</span>
+                        <span class="snowflake" data-rating="2" onclick="setRating('book', 2)">❄️</span>
+                        <span class="snowflake" data-rating="3" onclick="setRating('book', 3)">❄️</span>
+                        <span class="snowflake" data-rating="4" onclick="setRating('book', 4)">❄️</span>
+                        <span class="snowflake" data-rating="5" onclick="setRating('book', 5)">❄️</span>
+                    </div>
+                    <input type="hidden" id="bookRatingValue" value="0">
+                </div>
+                <div class="form-group">
+                    <label>评价</label>
+                    <textarea id="bookReview" class="form-textarea" rows="4" placeholder="写下你的评价..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeBookModal()">取消</button>
+                <button class="btn-save" onclick="saveBook()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加/编辑电影弹窗 -->
+    <div id="movieModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="movieModalTitle">添加电影</h3>
+                <span class="close-btn" onclick="closeMovieModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="movieId">
+                <div class="form-group">
+                    <label>电影名</label>
+                    <input type="text" id="movieTitle" class="form-input" placeholder="请输入电影名">
+                </div>
+                <div class="form-group">
+                    <label>导演</label>
+                    <input type="text" id="movieDirector" class="form-input" placeholder="请输入导演">
+                </div>
+                <div class="form-group">
+                    <label>评分</label>
+                    <div class="snowflake-rating" id="movieRating">
+                        <span class="snowflake" data-rating="1" onclick="setRating('movie', 1)">❄️</span>
+                        <span class="snowflake" data-rating="2" onclick="setRating('movie', 2)">❄️</span>
+                        <span class="snowflake" data-rating="3" onclick="setRating('movie', 3)">❄️</span>
+                        <span class="snowflake" data-rating="4" onclick="setRating('movie', 4)">❄️</span>
+                        <span class="snowflake" data-rating="5" onclick="setRating('movie', 5)">❄️</span>
+                    </div>
+                    <input type="hidden" id="movieRatingValue" value="0">
+                </div>
+                <div class="form-group">
+                    <label>评价</label>
+                    <textarea id="movieReview" class="form-textarea" rows="4" placeholder="写下你的评价..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeMovieModal()">取消</button>
+                <button class="btn-save" onclick="saveMovie()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加/编辑便利贴弹窗 -->
+    <div id="stickyNoteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="stickyNoteModalTitle">添加便利贴</h3>
+                <span class="close-btn" onclick="closeStickyNoteModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="stickyNoteId">
+                <div class="form-group">
+                    <label>标题</label>
+                    <input type="text" id="stickyNoteTitle" class="form-input" placeholder="请输入标题">
+                </div>
+                <div class="form-group">
+                    <label>内容</label>
+                    <textarea id="stickyNoteContent" class="form-textarea" rows="6" placeholder="写下你的收获..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>颜色</label>
+                    <div class="sticky-note-color-picker">
+                        <button type="button" class="sticky-note-color-option sticky-note-color-1" data-color="#E0C9A6" onclick="selectStickyNoteColor('#E0C9A6')"></button>
+                        <button type="button" class="sticky-note-color-option sticky-note-color-2" data-color="#D4B8C4" onclick="selectStickyNoteColor('#D4B8C4')"></button>
+                        <button type="button" class="sticky-note-color-option sticky-note-color-3" data-color="#9CA8B8" onclick="selectStickyNoteColor('#9CA8B8')"></button>
+                        <button type="button" class="sticky-note-color-option sticky-note-color-4" data-color="#B8C4D4" onclick="selectStickyNoteColor('#B8C4D4')"></button>
+                        <button type="button" class="sticky-note-color-option sticky-note-color-5" data-color="#C4D4B8" onclick="selectStickyNoteColor('#C4D4B8')"></button>
+                    </div>
+                    <input type="hidden" id="stickyNoteColor" value="#E0C9A6">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeStickyNoteModal()">取消</button>
+                <button class="btn-save" onclick="saveStickyNote()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 日志之海页面 -->
+    <main id="journal-page" class="page">
+        <div class="journal-container">
+            <div class="journal-header">
+                <h2 class="journal-title">📖 日志之海</h2>
+                <p class="journal-subtitle">他人方寸间，山海几千重</p>
+            </div>
+            
+            <div class="journal-content">
+                <div class="calendar-section">
+                    <div class="calendar-header">
+                        <button class="calendar-nav-btn" onclick="prevMonth()">◀</button>
+                        <div class="calendar-controls">
+                            <select id="yearSelect" class="calendar-select" onchange="yearChanged()">
+                                <!-- 年份将通过JavaScript动态生成 -->
+                            </select>
+                            <select id="monthSelect" class="calendar-select" onchange="monthChanged()">
+                                <option value="1">一月</option>
+                                <option value="2">二月</option>
+                                <option value="3">三月</option>
+                                <option value="4">四月</option>
+                                <option value="5">五月</option>
+                                <option value="6">六月</option>
+                                <option value="7">七月</option>
+                                <option value="8">八月</option>
+                                <option value="9">九月</option>
+                                <option value="10">十月</option>
+                                <option value="11">十一月</option>
+                                <option value="12">十二月</option>
+                            </select>
+                        </div>
+                        <button class="calendar-nav-btn" onclick="nextMonth()">▶</button>
+                    </div>
+                    
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- 日历将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <div class="journal-entry-section">
+                    <h3 class="section-title">📝 日志</h3>
+                    <div class="selected-date-info" id="selectedDateInfo">
+                        <span class="date-label">选择日期：</span>
+                        <span class="date-value" id="dateValue">未选择</span>
+                    </div>
+                    <div class="journal-entry" id="journalEntry">
+                        <textarea 
+                            class="journal-textarea" 
+                            id="journalContent"
+                            placeholder="记录今天的想法..."
+                            rows="10"
+                        ></textarea>
+                        <button class="save-journal-btn" onclick="saveJournal()">保存日记</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 树洞页面 -->
+    <main id="treehole-page" class="page">
+        <div class="treehole-container">
+            <div class="treehole-header">
+                <h2 class="treehole-title">🌊 树洞</h2>
+                <p class="treehole-subtitle">在这里倾诉你的心声，我们会认真倾听</p>
+            </div>
+            
+            <div class="messages-section">
+                <div class="messages-header">
+                    <h3>留言板</h3>
+                    <span class="message-count">共 <span id="messageCount">0</span> 条留言</span>
+                </div>
+                
+                <div class="messages-list" id="messagesList">
+                    <!-- 留言将通过JavaScript动态加载 -->
+                </div>
+            </div>
+            
+            <div class="message-input-section">
+                <div class="input-header">
+                    <h3>留下你的留言</h3>
+                </div>
+                <div class="input-form">
+                    <input 
+                        type="text" 
+                        id="visitorName" 
+                        class="name-input" 
+                        placeholder="你的名字（可选，默认为匿名访客）"
+                    >
+                    <textarea 
+                        id="messageContent" 
+                        class="message-input" 
+                        placeholder="写下你想说的话..."
+                        rows="4"
+                    ></textarea>
+                    <button class="submit-btn" onclick="submitMessage()">
+                        发送留言
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>© 2024 三海一秋 | 蝴蝶与坦克可以并存于一个女人身上</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
