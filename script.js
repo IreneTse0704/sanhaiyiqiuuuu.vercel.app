@@ -1,27 +1,239 @@
-﻿// 初始化留言数据
-let messages = [
-    {
-        id: 1,
-        author: '访客小明',
-        content: '这个网站的设计真的很清新，配色很舒服！',
-        time: '2024-01-15 14:30',
-        replies: []
-    },
-    {
-        id: 2,
-        author: '文学爱好者',
-        content: '文学之秋这个板块听起来很有意思，期待更多内容！',
-        time: '2024-01-14 09:15',
-        replies: []
-    },
-    {
-        id: 3,
-        author: '匿名访客',
-        content: '树洞是个很好的想法，可以在这里倾诉心事。',
-        time: '2024-01-13 20:45',
-        replies: []
+const supabase = createClient(
+    'https://iltgkpzaoweyzwlwozz.supabase.co',
+    'sb_publishable_zZ0i2_-VOI_nNRns77aK6w_XTxeGOoc'
+);
+
+// ==================== 登录/注册功能 ====================
+
+// 检查登录状态
+async function checkUser() {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (user) {
+        // 已登录，获取用户信息
+        const { data: profile } = await supabase
+            .from('user_profiles')
+            .select('username')
+            .eq('id', user.id)
+            .maybeSingle();
+        
+        // 更新界面
+        const userStatus = document.getElementById('userStatus');
+        if (userStatus) {
+            userStatus.innerHTML = `
+                <span style="margin-right: 10px;">👋 欢迎回来，${profile?.username || '小伙伴'}</span>
+                <button onclick="signOut()" style="padding: 5px 10px; background: #1E4A6F; color: white; border: none; border-radius: 5px; cursor: pointer;">退出</button>
+            `;
+        }
+    } else {
+        // 未登录，显示登录按钮
+        const userStatus = document.getElementById('userStatus');
+        if (userStatus) {
+            userStatus.innerHTML = `
+                <button onclick="showAuthModal()" style="padding: 8px 16px; background: #1E4A6F; color: white; border: none; border-radius: 5px; cursor: pointer;">登录/注册</button>
+            `;
+        }
     }
-];
+}
+
+// 显示登录框
+function showAuthModal() {
+    const modal = document.getElementById('authModal');
+    if (modal) modal.style.display = 'flex';
+}
+
+// 隐藏登录框
+function hideAuthModal() {
+    const modal = document.getElementById('authModal');
+    if (modal) modal.style.display = 'none';
+}
+
+// 注册
+async function signUp() {
+    const email = document.getElementById('email')?.value;
+    const password = document.getElementById('password')?.value;
+    
+    if (!email || !password) {
+        alert('请输入邮箱和密码');
+        return;
+    }
+    
+    const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password
+    });
+    
+    if (error) {
+        alert('注册失败：' + error.message);
+    } else {
+        alert('注册成功！请完善个人信息');
+        hideAuthModal();
+        const profileModal = document.getElementById('profileModal');
+        if (profileModal) profileModal.style.display = 'flex';
+    }
+}
+
+// 登录
+async function signIn() {
+    const email = document.getElementById('email')?.value;
+    const password = document.getElementById('password')?.value;
+    
+    if (!email || !password) {
+        alert('请输入邮箱和密码');
+        return;
+    }
+    
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+    
+    if (error) {
+        alert('登录失败：' + error.message);
+    } else {
+        alert('登录成功！');
+        hideAuthModal();
+        checkUser();
+    }
+}
+
+// 保存个人信息
+async function saveProfile() {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+        alert('请先登录');
+        return;
+    }
+    
+    const username = document.getElementById('username')?.value;
+    const mbti = document.getElementById('mbti')?.value;
+    const gender = document.getElementById('gender')?.value;
+    const birthday = document.getElementById('birthday')?.value;
+    const location = document.getElementById('location')?.value;
+    
+    if (!username) {
+        alert('请输入昵称');
+        return;
+    }
+    
+    const profile = {
+        id: user.id,
+        username: username,
+        mbti: mbti || null,
+        gender: gender || null,
+        birthday: birthday || null,
+        location: location || null
+    };
+    
+    const { error } = await supabase
+        .from('user_profiles')
+        .insert([profile]);
+    
+    if (error) {
+        alert('保存失败：' + error.message);
+    } else {
+        alert('信息保存成功！');
+        const profileModal = document.getElementById('profileModal');
+        if (profileModal) profileModal.style.display = 'none';
+        checkUser();
+    }
+}
+
+// 退出登录
+async function signOut() {
+    await supabase.auth.signOut();
+    checkUser();
+}
+
+// ========== 树洞功能（Supabase版） ==========
+
+// 获取树洞留言
+async function getTreeholePosts() {
+    const { data, error } = await supabase
+        .from('treehole_posts')
+        .select(`
+            *,
+            user_profiles (username),
+            treehole_replies (*)
+        `)
+        .order('created_at', { ascending: false });
+    
+    if (error) {
+        console.error('获取留言失败:', error);
+        return [];
+    }
+    return data || [];
+}
+
+// 发布树洞留言
+async function publishPost() {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+        alert('请先登录');
+        showAuthModal();
+        return;
+    }
+    
+    const content = document.getElementById('postContent')?.value;
+    if (!content) {
+        alert('请输入内容');
+        return;
+    }
+    
+    const anonymous = document.getElementById('anonymous')?.checked || false;
+    
+    const { error } = await supabase
+        .from('treehole_posts')
+        .insert([{
+            user_id: user.id,
+            content: content,
+            is_anonymous: anonymous
+        }]);
+    
+    if (error) {
+        alert('发布失败：' + error.message);
+    } else {
+        alert('发布成功！');
+        const postContent = document.getElementById('postContent');
+        if (postContent) postContent.value = '';
+        loadPosts();
+    }
+}
+
+// 加载并显示留言
+async function loadPosts() {
+    const posts = await getTreeholePosts();
+    const container = document.getElementById('postsContainer');
+    if (!container) return;
+    
+    if (posts.length === 0) {
+        container.innerHTML = '<p style="color: #666; text-align: center;">还没有留言，来做第一个吧！</p>';
+        return;
+    }
+    
+    container.innerHTML = posts.map(post => `
+        <div style="background: rgba(255,255,255,0.7); border-radius: 10px; padding: 15px; margin-bottom: 15px; backdrop-filter: blur(5px);">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: #1E4A6F;">
+                <span style="font-weight: bold;">${post.is_anonymous ? '匿名' : (post.user_profiles?.username || '小伙伴')}</span>
+                <span style="font-size: 0.8rem;">${new Date(post.created_at).toLocaleString()}</span>
+            </div>
+            <div style="margin-bottom: 10px;">${post.content}</div>
+            ${post.treehole_replies?.map(reply => `
+                <div style="margin-left: 20px; padding: 8px; background: rgba(124, 185, 232, 0.1); border-radius: 5px; margin-top: 5px;">
+                    <span style="color: ${reply.replier === '阿秋' ? '#D4A373' : '#1E4A6F'}; font-weight: bold;">${reply.replier}：</span>
+                    <span>${reply.content}</span>
+                </div>
+            `).join('') || ''}
+        </div>
+    `).join('');
+}
+
+// ==================== 原有的所有功能（保持不变） ====================
+
+// 初始化留言数据
+let messages = [];
 
 // 从localStorage加载数据
 function loadFromLocalStorage() {
@@ -83,7 +295,7 @@ function navigateTo(page) {
             break;
         case 'journal':
             journalPage.classList.add('active');
-            renderCalendar();
+            initJournalPage();
             break;
     }
     
@@ -161,7 +373,6 @@ function createFirework(x, y) {
     }
 }
 
-// 显示卡片信息
 // 显示卡片信息并导航到对应页面
 function showCardInfo(cardName, event) {
     // 创建烟花效果
@@ -340,21 +551,6 @@ function getCurrentTime() {
     return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
-// 页面加载时初始化
-document.addEventListener('DOMContentLoaded', function() {
-    // 默认显示首页
-    navigateTo('home');
-    
-    // 为输入框添加回车提交功能
-    const messageContent = document.getElementById('messageContent');
-    messageContent.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            submitMessage();
-        }
-    });
-});
-
 // 添加一些互动效果
 document.addEventListener('DOMContentLoaded', function() {
     // 卡片悬停效果增强
@@ -423,54 +619,10 @@ document.addEventListener('keydown', function(e) {
 });
 
 // 书籍数据
-let books = [
-    {
-        id: 1,
-        title: '百年孤独',
-        author: '加西亚·马尔克斯',
-        rating: 5,
-        review: '魔幻现实主义的巅峰之作，家族的兴衰史让人深思。'
-    },
-    {
-        id: 2,
-        title: '活着',
-        author: '余华',
-        rating: 5,
-        review: '生命的坚韧与苦难，让人热泪盈眶。'
-    },
-    {
-        id: 3,
-        title: '三体',
-        author: '刘慈欣',
-        rating: 4,
-        review: '科幻巨作，想象力令人震撼。'
-    }
-];
+let books = [];
 
 // 电影数据
-let movies = [
-    {
-        id: 1,
-        title: '肖申克的救赎',
-        director: '弗兰克·德拉邦特',
-        rating: 5,
-        review: '希望是美好的事物，也许是世间最美好的事物。'
-    },
-    {
-        id: 2,
-        title: '霸王别姬',
-        director: '陈凯歌',
-        rating: 5,
-        review: '华语电影的巅峰，张国荣的表演令人难忘。'
-    },
-    {
-        id: 3,
-        title: '星际穿越',
-        director: '克里斯托弗·诺兰',
-        rating: 4,
-        review: '科幻与情感的完美结合，视觉效果震撼。'
-    }
-];
+let movies = [];
 
 // 当前评分状态
 let currentBookRating = 0;
@@ -1010,6 +1162,8 @@ function initYearSelect() {
         option.textContent = year + '年';
         yearSelect.appendChild(option);
     }
+    
+    yearSelect.value = currentYear;
 }
 
 // 初始化月份选择器
@@ -1040,44 +1194,12 @@ function initJournalPage() {
 // 页面加载时初始化日志数据
 document.addEventListener('DOMContentLoaded', function() {
     loadJournalData();
+    initYearSelect();
+    initMonthSelect();
 });
 
 // 论文数据
-let papers = [
-    {
-        id: 1,
-        title: '深度学习在医学影像诊断中的应用研究',
-        author: '张三',
-        discipline: 'medicine',
-        journalLevel: 'nature',
-        year: 2024,
-        isRead: false,
-        isFavorite: false,
-        abstract: '本文研究了深度学习算法在医学影像诊断中的应用，通过对比实验验证了模型的有效性。'
-    },
-    {
-        id: 2,
-        title: '量子计算在密码学中的突破性进展',
-        author: '李四',
-        discipline: 'computer',
-        journalLevel: 'sci',
-        year: 2023,
-        isRead: true,
-        isFavorite: true,
-        abstract: '探讨了量子计算对传统密码学体系的挑战，提出了新的量子安全加密方案。'
-    },
-    {
-        id: 3,
-        title: 'CRISPR基因编辑技术的最新进展',
-        author: '王五',
-        discipline: 'biology',
-        journalLevel: 'cell',
-        year: 2024,
-        isRead: false,
-        isFavorite: false,
-        abstract: '综述了CRISPR-Cas9技术的最新改进和应用，分析了其在基因治疗中的潜力。'
-    }
-];
+let papers = [];
 
 // 当前筛选状态
 let currentDisciplineFilter = 'all';
@@ -1107,8 +1229,8 @@ function renderPapers() {
     if (filteredPapers.length === 0) {
         papersList.innerHTML = `
             <div class="empty-state">
-                <div class="empty-state-icon">📄</div>
-                <div class="empty-state-text">没有找到符合条件的论文</div>
+                <div class="empty-state-icon">🎓</div>
+                <div class="empty-state-text">欢迎来到学术的世界</div>
             </div>
         `;
     } else {
@@ -1436,3 +1558,24 @@ function deleteStickyNote(id) {
 
 // 页面加载时初始化便利贴数据
 loadStickyNotes();
+
+// ==================== 页面初始化 ====================
+document.addEventListener('DOMContentLoaded', function() {
+    // 默认显示首页
+    navigateTo('home');
+    
+    // 为输入框添加回车提交功能
+    const messageContent = document.getElementById('messageContent');
+    if (messageContent) {
+        messageContent.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                submitMessage();
+            }
+        });
+    }
+    
+    // 检查登录状态
+    checkUser();
+    loadPosts();
+});
