@@ -1,4 +1,4 @@
-﻿* {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -2392,5 +2392,224 @@ body {
     
     .journal-title {
         font-size: 28px;
+    }
+}
+/* ===== 登录相关样式 ===== */
+
+/* 头部登录区域 */
+.auth-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+}
+
+.auth-btn {
+    background: linear-gradient(135deg, #4A7BA7 0%, #1E4A6F 100%);
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(30, 74, 111, 0.3);
+    letter-spacing: 1px;
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 74, 111, 0.4);
+}
+
+.auth-btn:active {
+    transform: translateY(0);
+}
+
+/* 用户信息显示 */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    padding: 5px 15px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+#userDisplayName {
+    color: #1E4A6F;
+    font-weight: 500;
+    font-size: 0.95rem;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+}
+
+.logout-btn {
+    background: transparent;
+    color: #1E4A6F;
+    border: 1px solid #1E4A6F;
+    padding: 4px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: #1E4A6F;
+    color: white;
+}
+
+/* 模态框样式（覆盖/增强已有.modal） */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(30, 74, 111, 0.2);
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal .modal-header {
+    padding: 25px 30px 15px;
+    border-bottom: 1px solid rgba(30, 74, 111, 0.1);
+}
+
+.modal .modal-header h3 {
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    font-size: 24px;
+    color: #1E4A6F;
+    margin: 0;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.modal .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 28px;
+    color: #4A7BA7;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal .close-btn:hover {
+    color: #1E4A6F;
+    transform: rotate(90deg);
+}
+
+.modal .modal-body {
+    padding: 30px;
+}
+
+.modal .modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.modal .modal-btn {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #4A7BA7 0%, #1E4A6F 100%);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(30, 74, 111, 0.3);
+    min-width: 100px;
+}
+
+.modal .modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 74, 111, 0.4);
+}
+
+.modal .modal-btn:active {
+    transform: translateY(0);
+}
+
+.modal .form-input {
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 15px;
+    border: 2px solid rgba(30, 74, 111, 0.2);
+    border-radius: 30px;
+    font-size: 1rem;
+    font-family: 'KaiTi', 'STKaiti', '楷体', '楷体_GB2312', serif;
+    background: rgba(255, 255, 255, 0.8);
+    color: #1E4A6F;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.modal .form-input:focus {
+    outline: none;
+    border-color: #4A7BA7;
+    box-shadow: 0 0 0 3px rgba(74, 123, 167, 0.1);
+}
+
+.modal .form-input::placeholder {
+    color: #9CA8B8;
+    opacity: 0.8;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .auth-section {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 20px;
+    }
+    
+    .modal .modal-body {
+        padding: 20px;
     }
 }
